@@ -3,6 +3,12 @@ from pprint import pp
 import requests
 import json
 
+def find_dominant_emotion(resp_emotions:dict) -> dict:
+    dominant_emotion = max(resp_emotions, key = resp_emotions.get )
+    print(f"{dominant_emotion=}")
+    return dominant_emotion
+
+
 
 def emotion_detector(text_to_analyse:str = '') -> str:
     url = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict'
@@ -15,7 +21,6 @@ def emotion_detector(text_to_analyse:str = '') -> str:
             "text": text_to_analyse
         }   
     }
-
     resp = None
     try:
         response = requests.post(url, headers=headers, json=data)
@@ -26,13 +31,17 @@ def emotion_detector(text_to_analyse:str = '') -> str:
         resp = response
     
     if resp.status_code == 200:
-        print(f"Response: {resp.json()}")
-        return resp.json()
+        picked_response = resp.json().get('emotionPredictions', None)[0].get('emotion', None)
+        return picked_response
     else:
         print("Error:", resp.status_code, resp.text)
         return None
 
+
 if __name__ =="__main__":
     
     test_str = "I love this new technology."
-    pp(emotion_detector(test_str))
+    emotions = emotion_detector(test_str)
+    print(f"{emotions=}")
+    dom = find_dominant_emotion(resp_emotions = emotions)
+    print(f"{dom=}")
