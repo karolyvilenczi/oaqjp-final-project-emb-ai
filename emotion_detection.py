@@ -5,27 +5,32 @@ import json
 
 
 def emotion_detector(text_to_analyse:str = '') -> str:
-    watson = {
-        "url":'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict',
-        "Headers": {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"},
-        "Input":  { "raw_document": { "text": text_to_analyse } }
+    url = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict'
+    headers = { 
+        'grpc-metadata-mm-model-id': 'emotion_aggregated-workflow_lang_en_stock',
+        'Content-Type': 'application/json'
     }
-    text = None
+    data = {
+        "raw_document": {
+            "text": text_to_analyse
+        }   
+    }
 
     resp = None
     try:
-        resp = requests.post(
-            url = watson["url"], 
-            headers = watson["Headers"], 
-            body=watson["Input"]
-        )
+        response = requests.post(url, headers=headers, json=data)
     except Exception as e:
-        print(f"Error executing request: {e}")
+        print(f"Error at processing reques: {e}")
+        return None
     else:
-        text = resp.body
-        pp(text)
-
-    return text
+        resp = response
+    
+    if resp.status_code == 200:
+        print(f"Response: {resp.json()}")
+        return resp.json()
+    else:
+        print("Error:", resp.status_code, resp.text)
+        return None
 
 if __name__ =="__main__":
     
