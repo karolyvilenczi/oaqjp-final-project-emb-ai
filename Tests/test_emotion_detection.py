@@ -1,7 +1,10 @@
+
+"""
+This module contains the unittest TestCases.
+"""
 import unittest
 import sys
 import os
-from pprint import pp
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -45,7 +48,8 @@ class TestEmotionDetection(unittest.TestCase):
         )
 
     def test_empty(self):
-        with self.assertRaises(TypeError) as context:
+        with self.assertRaises(TypeError) as context:                        
+            print(f"{context=}")
             self.get_dominant_emotion(text="")
 
 
@@ -67,7 +71,7 @@ class TestFlaskApp(unittest.TestCase):
         response = self.client.post("/emotionDetector", json={"text": ""})
         # print(response.text)
         self.assertEqual(response.status_code, 400)
-        self.assertEqual('{"error":"Text field cannot be empty!"}\n', response.text)
+        self.assertEqual('{"error":"Invalid text! Please try again!"}\n', response.text)
 
 
 if __name__ == "__main__":

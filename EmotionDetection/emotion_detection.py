@@ -1,3 +1,7 @@
+"""
+This module handles the communication logic with watson NLTK AI"
+"""
+
 from pprint import pp
 import requests
 import json

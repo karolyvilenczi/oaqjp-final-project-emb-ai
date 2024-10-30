@@ -1,3 +1,7 @@
+"""
+This module handles the flask server logic.
+"""
+
 from flask import Flask, request, jsonify
 
 import EmotionDetection
