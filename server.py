@@ -22,7 +22,17 @@ def fetch_emotion():
     except Exception as e:
         return jsonify({"error:Cannot process request"}), 500
     else:
-        return emot_resp
+        response = f"""
+        For the given statement, the system response is 
+        'anger': {emot_resp['anger']}, 
+        'disgust': {emot_resp['disgust']}, 
+        'fear': {emot_resp['fear']}, 
+        'joy': {emot_resp['joy']} and 
+        'sadness': {emot_resp['sadness']}. 
+        The dominant emotion is {emot_resp['dominant_emotion']}.
+        """
+
+        return response
 
 if __name__ == "__main__":
     flask.run(debug=True)
