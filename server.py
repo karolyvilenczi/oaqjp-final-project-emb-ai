@@ -12,7 +12,7 @@ def fetch_emotion():
         return "To get emotions use POST!\n", 404
 
     if request.method == "POST":
-        # print(f"!!!!!!!!!!!!!! {request.json=}, {type(request.json)=}")    
+        # print(f"!!!!!!!!!!!!!! {request.json=}, {type(request.json)=}")
         req_data = None
         try:
             data = request.json
@@ -20,12 +20,14 @@ def fetch_emotion():
             return jsonify({"error": f"Cannot process request: {e}"}), 500
         else:
             req_data = data
-        
+
         if req_data["text"] == "":
-            return jsonify({"error": f"Text field cannot be empty!"}), 400
+            return jsonify({"error": f"Invalid text! Please try again!"}), 400
 
         try:
-            emot_resp = EmotionDetection.emotion_detector(text_to_analyse=req_data["text"])
+            emot_resp = EmotionDetection.emotion_detector(
+                text_to_analyse=req_data["text"]
+            )
         except Exception as e:
             return jsonify({"error:Cannot process request"}), 500
         else:
@@ -33,6 +35,7 @@ def fetch_emotion():
             return response
 
         return "testing", 200
+
 
 if __name__ == "__main__":
     flask.run(debug=True)

@@ -11,16 +11,15 @@ from server import fapp
 
 class TestEmotionDetection(unittest.TestCase):
 
-    def get_dominant_emotion(self, text=''):
+    def get_dominant_emotion(self, text=""):
         resp_dict = None
         try:
             resp_dict = ED.emotion_detector(text_to_analyse=text)
         except TypeError as e:
             raise
             print(f"Error calling ED.emotion_detector: {e=}")
-        
+
         return resp_dict["dominant_emotion"] if resp_dict else None
-    
 
     def test_joy(self):
         self.assertEqual(self.get_dominant_emotion("I am glad this happened"), "joy")
@@ -47,8 +46,8 @@ class TestEmotionDetection(unittest.TestCase):
 
     def test_empty(self):
         with self.assertRaises(TypeError) as context:
-            self.get_dominant_emotion(text='')
-        
+            self.get_dominant_emotion(text="")
+
 
 class TestFlaskApp(unittest.TestCase):
 
@@ -59,17 +58,17 @@ class TestFlaskApp(unittest.TestCase):
 
     def test_get_emotion_successful(self):
         """Test a successful response"""
-        response = self.client.post('/emotionDetector', json={"text": "I love my life"})
+        response = self.client.post("/emotionDetector", json={"text": "I love my life"})
         self.assertEqual(response.status_code, 200)
-        self.assertIn('The dominant emotion is joy.', response.text)
-
+        self.assertIn("The dominant emotion is joy.", response.text)
 
     def test_get_emotion_error(self):
         """Test response when 'text' is missing"""
-        response = self.client.post('/emotionDetector', json={"text": ""})
+        response = self.client.post("/emotionDetector", json={"text": ""})
         # print(response.text)
         self.assertEqual(response.status_code, 400)
         self.assertEqual('{"error":"Text field cannot be empty!"}\n', response.text)
+
 
 if __name__ == "__main__":
     unittest.main()
