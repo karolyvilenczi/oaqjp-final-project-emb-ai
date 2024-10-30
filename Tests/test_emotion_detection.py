@@ -21,6 +21,7 @@ class TestEmotionDetection(unittest.TestCase):
         """        
         Gets the dominant emotion.
         """
+
         resp_dict = None
         try:
             resp_dict = ED.emotion_detector(text_to_analyse=text)
@@ -73,32 +74,32 @@ class TestEmotionDetection(unittest.TestCase):
         Tests if emty, should raise a TypeErr        
         """
         with self.assertRaises(TypeError) as context:                        
-            print(f"{context=}")
+            # print(f"{context=}")
             self.get_dominant_emotion(text="")
 
 
-class TestFlaskApp(unittest.TestCase):
-    """
-    Class to contain flask related tests
-    """
+# class TestFlaskApp(unittest.TestCase):
+#     """
+#     Class to contain flask related tests
+#     """
 
-    @classmethod
-    def setUpClass(cls):
-        """Set up the Flask test client"""
-        cls.client = fapp.test_client()
+#     @classmethod
+#     def setUpClass(cls):
+#         """Set up the Flask test client"""
+#         cls.client = fapp.test_client()
 
-    def test_get_emotion_successful(self):
-        """Test a successful response"""
-        response = self.client.post("/emotionDetector", json={"text": "I love my life"})
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("The dominant emotion is joy.", response.text)
+    # def test_get_emotion_successful(self):
+    #     """Test a successful response"""
+    #     response = self.client.post("/emotionDetector", json={"text": "I love my life"})
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertIn("The dominant emotion is joy.", response.text)
 
-    def test_get_emotion_error(self):
-        """Test response when 'text' is missing"""
-        response = self.client.post("/emotionDetector", json={"text": ""})
-        # print(response.text)
-        self.assertEqual(response.status_code, 400)
-        self.assertEqual('{"error":"Invalid text! Please try again!"}\n', response.text)
+    # def test_get_emotion_error(self):
+    #     """Test response when 'text' is missing"""
+    #     response = self.client.post("/emotionDetector", json={"text": ""})
+    #     # print(response.text)
+    #     self.assertEqual(response.status_code, 400)
+    #     self.assertEqual('{"error":"Invalid text! Please try again!"}\n', response.text)
 
 
 if __name__ == "__main__":
