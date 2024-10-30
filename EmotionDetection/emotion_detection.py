@@ -35,9 +35,11 @@ def emotion_detector(text_to_analyse:str = '') -> str:
 
 if __name__ =="__main__":
     
+    # print(f"Called {__name__} directly.")
     test_str = "I love this new technology."
     emotions = emotion_detector(test_str)
     pp(emotions)
 else:
-    print(f"Called {__name__} as module.")
+    # print(f"Called {__name__} as module.")
+    pass
     
