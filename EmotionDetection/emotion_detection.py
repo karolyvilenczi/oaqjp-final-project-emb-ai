@@ -38,4 +38,6 @@ if __name__ =="__main__":
     test_str = "I love this new technology."
     emotions = emotion_detector(test_str)
     pp(emotions)
+else:
+    print(f"Called {__name__} as module.")
     
