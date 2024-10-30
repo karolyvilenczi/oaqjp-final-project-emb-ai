@@ -9,7 +9,8 @@ fapp = Flask(__name__)
 def fetch_emotion():
     req_data = None
     if request.method == "GET":
-        return "To get emotions use POST!\n"
+        return "To get emotions use POST!\n", 404
+
     if request.method == "POST":
         data = request.get_json()
         if data is None:
@@ -22,16 +23,7 @@ def fetch_emotion():
     except Exception as e:
         return jsonify({"error:Cannot process request"}), 500
     else:
-        response = f"""
-        For the given statement, the system response is 
-        'anger': {emot_resp['anger']}, 
-        'disgust': {emot_resp['disgust']}, 
-        'fear': {emot_resp['fear']}, 
-        'joy': {emot_resp['joy']} and 
-        'sadness': {emot_resp['sadness']}. 
-        The dominant emotion is {emot_resp['dominant_emotion']}.
-        """
-
+        response = f"For the given statement, the system response is 'anger': {emot_resp['anger']}, 'disgust': {emot_resp['disgust']}, 'fear': {emot_resp['fear']}, 'joy': {emot_resp['joy']} and 'sadness': {emot_resp['sadness']}. The dominant emotion is {emot_resp['dominant_emotion']}."
         return response
 
 
