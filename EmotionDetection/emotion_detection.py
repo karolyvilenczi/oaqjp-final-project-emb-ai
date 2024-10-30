@@ -2,17 +2,14 @@
 This module handles the communication logic with watson NLTK AI"
 """
 
-from pprint import pp
+from pprint import pp 
 import requests
-import json
-
 
 def emotion_detector(text_to_analyse: str = "") -> dict:
     if text_to_analyse is None or text_to_analyse == "":
         raise TypeError(
             f"The {text_to_analyse=} argument is required and cannot be None or empty."
         )
-        return None
 
     url = "https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict"
     headers = {
@@ -23,7 +20,7 @@ def emotion_detector(text_to_analyse: str = "") -> dict:
 
     resp = None
     try:
-        response = requests.post(url, headers=headers, json=data)
+        response = requests.post(url, headers=headers, json=data, timeout=5)
     except Exception as e:
         print(f"Error at processing reques: {e}")
         return None
@@ -47,8 +44,8 @@ def emotion_detector(text_to_analyse: str = "") -> dict:
 if __name__ == "__main__":
 
     # print(f"Called {__name__} directly.")
-    test_str = "I love this new technology."
-    emotions = emotion_detector(test_str)
+    TEST_STR = "I love this new technology."
+    emotions = emotion_detector(TEST_STR)
     pp(emotions)
 else:
     # print(f"Called {__name__} as module.")
