@@ -54,21 +54,22 @@ class TestFlaskApp(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # Set up the Flask test client
+        """Set up the Flask test client"""
         cls.client = fapp.test_client()
 
     def test_get_emotion_successful(self):
-        # Test a successful response
+        """Test a successful response"""
         response = self.client.post('/emotionDetector', json={"text": "I love my life"})
         self.assertEqual(response.status_code, 200)
         self.assertIn('The dominant emotion is joy.', response.text)
 
-    # def test_get_emotion_error(self):
-        # Test response when 'name' is missing
-        # response = self.client.post('/greet', json={})
-        # self.assertEqual(response.status_code, 400)
-        # self.assertEqual(response.json, {"error": "Name is required"})
-        # return True
+
+    def test_get_emotion_error(self):
+        """Test response when 'text' is missing"""
+        response = self.client.post('/emotionDetector', json={"text": ""})
+        # print(response.text)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual('{"error":"Text field cannot be empty!"}\n', response.text)
 
 if __name__ == "__main__":
     unittest.main()
